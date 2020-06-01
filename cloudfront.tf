@@ -52,6 +52,22 @@ resource "aws_cloudfront_distribution" "site" {
     }
   }
 
+  custom_error_response {
+    error_caching_min_ttl = 3000
+    error_code            = 404
+    response_code         = 200
+    response_page_path    = "/index.html"
+  }
+
+  custom_error_response {
+    error_caching_min_ttl = 3000
+    error_code            = 403
+    response_code         = 200
+    response_page_path    = "/index.html"
+  }
+
+
+
   price_class = "PriceClass_200"
 
   # とりあえずCloudFrontドメインの証明書を利用
