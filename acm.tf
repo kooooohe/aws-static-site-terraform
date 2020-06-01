@@ -24,27 +24,27 @@ resource "aws_acm_certificate" "acm_cert" {
 // }
 resource "aws_route53_record" "cert_validation" {
   allow_overwrite = true
-  zone_id = data.aws_route53_zone.root_domain.id
-  name    = aws_acm_certificate.acm_cert.domain_validation_options.0.resource_record_name
-  type    = aws_acm_certificate.acm_cert.domain_validation_options.0.resource_record_type
-  records = [aws_acm_certificate.acm_cert.domain_validation_options.0.resource_record_value]
-  ttl     = 60
+  zone_id         = data.aws_route53_zone.root_domain.id
+  name            = aws_acm_certificate.acm_cert.domain_validation_options.0.resource_record_name
+  type            = aws_acm_certificate.acm_cert.domain_validation_options.0.resource_record_type
+  records         = [aws_acm_certificate.acm_cert.domain_validation_options.0.resource_record_value]
+  ttl             = 60
 }
 
 resource "aws_route53_record" "cert_validation_alt" {
   allow_overwrite = true
-  zone_id = data.aws_route53_zone.root_domain.id
-  name    = aws_acm_certificate.acm_cert.domain_validation_options.1.resource_record_name
-  type    = aws_acm_certificate.acm_cert.domain_validation_options.1.resource_record_type
-  records = [aws_acm_certificate.acm_cert.domain_validation_options.1.resource_record_value]
-  ttl     = 60
+  zone_id         = data.aws_route53_zone.root_domain.id
+  name            = aws_acm_certificate.acm_cert.domain_validation_options.1.resource_record_name
+  type            = aws_acm_certificate.acm_cert.domain_validation_options.1.resource_record_type
+  records         = [aws_acm_certificate.acm_cert.domain_validation_options.1.resource_record_value]
+  ttl             = 60
 }
 
 
 
 resource "aws_acm_certificate_validation" "acm_cert" {
   //depends_on = [aws_acm_certificate.acm_cert]
-  provider = aws.us-east-1
+  provider                = aws.us-east-1
   certificate_arn         = aws_acm_certificate.acm_cert.arn
   validation_record_fqdns = [aws_route53_record.cert_validation.fqdn, aws_route53_record.cert_validation_alt.fqdn]
 }
